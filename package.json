@@ -1,0 +1,23 @@
+{
+  "name": "dc-router",
+  "version": "0.1.0",
+  "description": "Another router for koa, base on decorator",
+  "main": "index.js",
+  "scripts": {
+    "compile": "babel ./ -d output",
+    "pretest": "npm run compile",
+    "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "author": "treelite <c.xinle@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-plugin-transform-async-to-generator": "^6.16.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
+    "jasmine": "^2.5.3"
+  }
+}
