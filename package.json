@@ -2,11 +2,12 @@
   "name": "dc-router",
   "version": "0.1.0",
   "description": "Another router for koa, base on decorator",
-  "main": "index.js",
+  "main": "output/index.js",
   "scripts": {
     "compile": "babel ./ -d output",
     "pretest": "npm run compile",
-    "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json"
+    "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json",
+    "prepublish": "npm test"
   },
   "engines": {
     "node": ">=6"
