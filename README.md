@@ -63,9 +63,21 @@ Shortcut for `action('get', path)`
 
 Shortcut for `action('post', path)`
 
+### options(path)
+
+Shortcut for `action('options', path)`
+
+### head(path)
+
+Shortcut for `action('head', path)`
+
+### put(path)
+
+Shortcut for `action('put', path)`
+
 ### before(path)
 
-Do something before action.
+Do something before action, must be used for class methods.
 
 * __path__ `{string}` the sub path, it combines with parent path to be the full path
 

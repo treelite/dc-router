@@ -197,3 +197,36 @@ export function get(path) {
 export function post(path) {
     return action('post', path);
 }
+
+/**
+ * Decorator for OPTIONS
+ *
+ * @public
+ * @param {string} path the path which need to be processed
+ * @return {Function}
+ */
+export function options(path) {
+    return action('options', path);
+}
+
+/**
+ * Decorator for HEAD
+ *
+ * @public
+ * @param {string} path the path which need to be processed
+ * @return {Function}
+ */
+export function head(path) {
+    return action('head', path);
+}
+
+/**
+ * Decorator for PUT
+ *
+ * @public
+ * @param {string} path the path which need to be processed
+ * @return {Function}
+ */
+export function put(path) {
+    return action('put', path);
+}
