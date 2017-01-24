@@ -3,6 +3,7 @@
  * @author treelite (c.xinle@gmail.com)
  */
 
+let prefixs = new WeakMap();
 let subActions = new WeakMap();
 let checkMethod = (ctx, method) => ctx.method.toLowerCase() === method.toLowerCase();
 
@@ -46,7 +47,7 @@ function path2Reg(path) {
  * Normalize path
  * Begin and end with '/'
  *
- * @param {string} paths paths
+ * @param {...string} paths paths
  * @return {string}
  */
 function normalizePath(...paths) {
@@ -60,7 +61,7 @@ function normalizePath(...paths) {
         res += path;
 
         if (res.charAt(res.length - 1) !== '/') {
-            res += '/'
+            res += '/';
         }
     }
 
@@ -73,7 +74,7 @@ function normalizePath(...paths) {
  *
  * @param {Object} ctx koa's context
  * @param {string} path path
- * @return {Object=}
+ * @return {!Object}
  */
 function matchPath(ctx, path) {
     let reqPath = normalizePath(ctx.path);
@@ -113,6 +114,23 @@ export function action(method, path = '/') {
 }
 
 /**
+ * Do something before action
+ *
+ * @public
+ * @param {string} path sub path
+ * @return {Function}
+ */
+export function before(path = '/') {
+    return function (target, name, descriptor) {
+        let cls = target.constructor;
+        let handlers = prefixs.get(cls) || [];
+        handlers.push({path, name});
+        prefixs.set(cls, handlers);
+        return descriptor;
+    };
+}
+
+/**
  * Decorator for router
  *
  * @public
@@ -122,6 +140,24 @@ export function action(method, path = '/') {
 export function router(path = '/') {
     return function (target) {
         return async function (ctx, next) {
+            let obj;
+
+            async function invoke(name, params) {
+                obj = obj || Reflect.construct(target, []);
+                return await obj[name](ctx, params);
+            }
+
+            // Call prefix handler
+            let prefixHandlrs = prefixs.get(target) || [];
+            for (let handler of prefixHandlrs) {
+                let fullPath = normalizePath(path, handler.path);
+                let params = matchPath(ctx, fullPath);
+                if (params) {
+                    await invoke(handler.name, params);
+                }
+            }
+
+            // Call action
             let actions = subActions.get(target) || [];
             for (let action of actions) {
                 if (!checkMethod(ctx, action.method)) {
@@ -130,11 +166,11 @@ export function router(path = '/') {
                 let fullPath = normalizePath(path, action.path);
                 let params = matchPath(ctx, fullPath);
                 if (params) {
-                    let obj = Reflect.construct(target, []);
-                    await obj[action.name](ctx, params);
+                    await invoke(action.name, params);
                     break;
                 }
             }
+
             await next();
         };
     };
