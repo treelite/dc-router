@@ -16,6 +16,7 @@
   },
   "author": "treelite <c.xinle@gmail.com>",
   "license": "MIT",
+  "repository": "https://github.com/treelite/dc-router",
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-plugin-transform-async-to-generator": "^6.16.0",
