@@ -1,6 +1,6 @@
 {
   "name": "dc-router",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Another router for koa, base on decorator",
   "main": "output/index.js",
   "files": ["output"],
