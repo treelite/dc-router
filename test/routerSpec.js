@@ -70,4 +70,17 @@ describe('Router', () => {
         });
     });
 
+    it('without action', done => {
+        @router('/')
+        class Handler {
+        }
+
+        let ctx = new MockContext('get', '/');
+
+        Handler(ctx, () => {
+            expect(ctx.status === 404);
+            done();
+        });
+    });
+
 });
