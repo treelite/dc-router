@@ -63,6 +63,13 @@ Shortcut for `action('get', path)`
 
 Shortcut for `action('post', path)`
 
+### before(path)
+
+Do something before action.
+
+* __path__ `{string}` the sub path, it combines with parent path to be the full path
+
+
 ## Decorate a function ?
 
 Current proposal don't support decorator for function, because it's not compatible with function declarations being hoisted, more information see this: [https://esdiscuss.org/topic/decorators-for-functions]()
